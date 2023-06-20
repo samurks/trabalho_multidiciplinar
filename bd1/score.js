@@ -4,7 +4,7 @@ const db = require('./conn.js');
 const router = express.Router();
 
 // Registrar um novo resultado
-router.post("/score.js", async (req, res) => {
+router.post("/", async (req, res) => {
     let col = await db.collection('score');
     let out = await col.insertOne(req.body);
     res.send(out).status(204);

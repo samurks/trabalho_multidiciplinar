@@ -5,7 +5,7 @@ let pontos = 0;
 let tempo = 0;
 let time = null;
 
-let jogador= prompt("digite seu nome")
+let player = prompt("digite seu nome")
 
 function iniciaJogo(){
 pontos = 0;
@@ -44,11 +44,62 @@ function contarTempo() {
 
   if (tempo <= 0) {
     clearInterval(timer);
+    let pontuacao = {
+      pontuacao: pontos,
+      nome: player
+    };
+    
+    fetch('http://localhost:5050/score', {
+      method: "POST",
+      body: JSON.stringify(pontuacao),
+      headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+    .then(response => response.json()) 
+    .then(json => console.log(json))
+    .catch(err => console.log(err));
+    
     alert("Parabéns, você fez " + pontos + " pontos!");
     iniciaJogo();
   }
   
 }
+
+// Função para criar um elemento HTML e adicionar ao container
+
+
+function criarElemento(name, pontos) {
+  const container = document.getElementById('container');
+  const nome = document.createElement('h3');
+  const pontuacao = document.createElement('h4');
+
+  nome.textContent = name;
+ pontuacao.textContent = pontos;
+
+  container.appendChild(nome);
+  container.appendChild(pontuacao);
+}
+
+
+fetch('http://localhost:5050/score')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Erro na requisição');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Processar os dados e exibir a lista no HTML
+    console.log(data);
+
+    const jogadores = data;
+
+    jogadores.forEach(jogador => {
+      criarElemento(jogador.nome, jogador.pontuacao);
+    });
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
 
 
