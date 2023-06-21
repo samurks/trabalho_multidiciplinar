@@ -58,7 +58,7 @@ function contarTempo() {
     .then(json => console.log(json))
     .catch(err => console.log(err));
     
-    alert("Parabéns, "+ player "você fez " + pontos + " pontos!");
+    alert("Parabéns, você fez " + pontos + " pontos!");
     iniciaJogo();
   }
   
@@ -69,7 +69,7 @@ function contarTempo() {
 
 function criarElemento(name, pontos) {
   const container = document.getElementById('container');
-  const nome = document.createElement('h1');
+  const nome = document.createElement('h2');
   const pontuacao = document.createElement('h4');
 
   nome.textContent = name;
